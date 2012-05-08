@@ -1,0 +1,27 @@
+#!/bin/sh
+
+st & # simple X terminal
+
+gnome-settings-daemon & # system settings
+/usr/bin/gnome-keyring-daemon --daemonize --login &
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & # makes empathy dialogue go away :P
+/usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper & # auto mounter
+bluetooth-applet &
+nm-applet & # network manager
+#/usr/lib/gnome-disk-utility/gdu-notification-daemon &
+#zeitgeist-datahub &
+#telepathy-indicator &
+#/usr/bin/python /usr/share/system-config-printer/applet.py &
+#/usr/lib/evolution/3.2/evolution-alarm-notify &
+#/usr/bin/python /usr/bin/gwibber-service &
+#update-notifier &
+#/usr/lib/deja-dup/deja-dup/deja-dup-monitor &
+#/usr/bin/python /usr/lib/ubuntuone-client/ubuntuone-syncdaemon &
+
+#xsetroot -bg black &
+while true; do
+	xsetroot -name "$(( $(cat /proc/acpi/battery/*/state | sed -n '/remaining/s/[^0-9]*\([0-9]*\).*/\1/p') * 100 / $(cat /proc/acpi/battery/*/info | sed -n '/full/s/[^0-9]*\([0-9]*\).*/\1/p') ))% $(date --rfc-3339=seconds) "
+	sleep 1
+done &
+
+dwm
