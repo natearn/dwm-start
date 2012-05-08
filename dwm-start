@@ -2,6 +2,7 @@
 
 st & # simple X terminal
 
+# Things one might want at log-in, enable/disable as desired
 gnome-settings-daemon & # system settings
 /usr/bin/gnome-keyring-daemon --daemonize --login &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & # makes empathy dialogue go away :P
@@ -18,7 +19,7 @@ nm-applet & # network manager
 #/usr/lib/deja-dup/deja-dup/deja-dup-monitor &
 #/usr/bin/python /usr/lib/ubuntuone-client/ubuntuone-syncdaemon &
 
-#xsetroot -bg black &
+# Battery state and date
 while true; do
 	xsetroot -name "$(( $(cat /proc/acpi/battery/*/state | sed -n '/remaining/s/[^0-9]*\([0-9]*\).*/\1/p') * 100 / $(cat /proc/acpi/battery/*/info | sed -n '/full/s/[^0-9]*\([0-9]*\).*/\1/p') ))% $(date --rfc-3339=seconds) "
 	sleep 1
