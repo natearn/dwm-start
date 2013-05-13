@@ -1,11 +1,10 @@
 #!/bin/sh
 
 st & # simple X terminal
-st -e vim ~/TODO.txt &
 
 gnome-settings-daemon & # system settings
-/usr/bin/gnome-keyring-daemon --daemonize --login &
-/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & # makes empathy dialogue go away :P
+#/usr/bin/gnome-keyring-daemon --daemonize --login &
+#/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & # makes empathy dialogue go away :P
 /usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper & # auto mounter
 bluetooth-applet &
 nm-applet & # network manager
@@ -15,15 +14,14 @@ nm-applet & # network manager
 #/usr/bin/python /usr/share/system-config-printer/applet.py &
 #/usr/lib/evolution/3.2/evolution-alarm-notify &
 #/usr/bin/python /usr/bin/gwibber-service &
-#update-notifier &
+update-notifier &
 #/usr/lib/deja-dup/deja-dup/deja-dup-monitor &
 #/usr/bin/python /usr/lib/ubuntuone-client/ubuntuone-syncdaemon &
-insync --allow-dot-files &
 #xsetroot -bg black &
 
 while true; do
-	xsetroot -name "$(pactl list sinks | grep 'Active Port' | sed -r 's/^.*Active Port: ([a-z]*-[a-z]*-([a-z]*))$/\2/') $(( $(cat /proc/acpi/battery/*/state | sed -n '/remaining/s/[^0-9]*\([0-9]*\).*/\1/p') * 100 / $(cat /proc/acpi/battery/*/info | sed -n '/full/s/[^0-9]*\([0-9]*\).*/\1/p') ))% $(date --rfc-3339=seconds)"
+	xsetroot -name "$(pactl list sinks | sed -r 's/\s*Volume: 0:\s*([0-9]+%).*$/vol: \1/g') $(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep 'percentage' | sed -r 's/^\s*percentage:\s*([0-9]*)\.?.*$/bat: \1%/') $(date --rfc-3339=seconds)"
 	sleep 1
 done &
-
+ 
 dwm
