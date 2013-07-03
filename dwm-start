@@ -1,6 +1,6 @@
 #!/bin/sh
 
-uxterm & # simple X terminal
+st -e screen & # simple X terminal
 
 gnome-settings-daemon & # system settings
 nm-applet & # network manager
